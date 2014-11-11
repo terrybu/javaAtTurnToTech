@@ -10,7 +10,7 @@ public class AddToArrayThread implements Runnable{
 	        	Random random = new Random();
 	        	String randomString = this.generateString(random, "abcdefghijklmnopqrstuvwxyz", 5);
 	        	Main.queueArray.add(randomString);
-	        	System.out.println("Added random string " + randomString + " From Thread 1");
+	        	System.out.println("From Thread 1: Added random string " + randomString);
 	        	Thread.sleep(5000);
 	        } catch(Exception ex) {
 	            ex.printStackTrace();

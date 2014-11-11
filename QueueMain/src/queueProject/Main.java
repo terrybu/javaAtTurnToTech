@@ -14,7 +14,6 @@ public class Main {
 		Thread t2 = new Thread(new GetFromArrayThread());
 		
 		t1.start();		
-		Thread.sleep(1000);
 		t2.start();
 		
 	}
