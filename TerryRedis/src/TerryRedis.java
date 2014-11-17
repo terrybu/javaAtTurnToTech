@@ -1,3 +1,4 @@
+import java.util.Random;
 import redis.clients.jedis.*;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
@@ -17,21 +18,29 @@ public class TerryRedis {
 		jedisPool = new JedisPool(config, "localhost");
 		Jedis jedis = jedisPool.getResource();
 		
-		String key = "fruits";
+//      Lists don't care about uniqueness. So you can end up adding duplicate items
 		
-//      Lists don't care about uniquness. So you keep adding same strings by doing this below
-//		jedis.rpush("ninjas", "Naruto", "Sasuke");
-//		System.out.println("Ninjas list from Redis: " + jedis.lrange("ninjas", 0, -1));
-//		System.out.println("Ninjas list length: " + jedis.llen("ninjas"));
+		String key = "notifications";	
+    	Random random = new Random();
+    	String randomString = TerryRedis.generateString(random, "abcdefghijklmnopqrstuvwxyz", 5);
+    	
+		jedis.rpush(key, randomString);
+		System.out.println("Notifications List in Redis: " + jedis.lrange(key, 0, -1));
+		System.out.println("Notifications list length: " + jedis.llen(key));
 		
-		
-		//You can see that Sets never add two same elements twice
-		jedis.sadd("fruits", "pineapple");
-		System.out.println("Fruits set: " + jedis.smembers("fruits"));
-		System.out.println("Fruits set count: " + jedis.scard(key)); //scard key is like len for Sets
 		
 		
 		
 	}
+	
+    private static String generateString(Random rng, String characters, int length)
+    {
+        char[] text = new char[length];
+        for (int i = 0; i < length; i++)
+        {
+            text[i] = characters.charAt(rng.nextInt(characters.length()));
+        }
+        return new String(text);
+    }
 
 }
