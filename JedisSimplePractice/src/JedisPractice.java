@@ -10,26 +10,26 @@ public class JedisPractice {
 		Jedis jedis = new Jedis("localhost");
 		
 		//You can see that Sets never add two same elements twice
-		jedis.sadd("fruits", "pineapple");
-		System.out.println("Fruits set: " + jedis.smembers("fruits"));
-		System.out.println("Fruits set count: " + jedis.scard("fruits")); //scard key is like len for Sets
+//		jedis.sadd("fruits", "pineapple");
+//		System.out.println("Fruits set: " + jedis.smembers("fruits"));
+//		System.out.println("Fruits set count: " + jedis.scard("fruits")); //scard key is like len for Sets
 		
 		
 //      Lists don't care about uniqueness. So you can end up adding duplicate items	
-		String key = "ninjas";	
+		String key = "notifications";	
     	
-		jedis.rpush(key, "Sasuke");
-		System.out.println("ninjas List in Redis: " + jedis.lrange(key, 0, -1));
-		System.out.println("ninjas list length: " + jedis.llen(key));
+//		jedis.rpush(key, "Sasuke");
+//		System.out.println("ninjas List in Redis: " + jedis.lrange(key, 0, -1));
+//		System.out.println("ninjas list length: " + jedis.llen(key));
 		
-		//From TerryRedis
-//    	Random random = new Random();
-//    	String randomString = TerryRedis.generateString(random, "abcdefghijklmnopqrstuvwxyz", 5);
-//    	
-//		String key = "notifications";
-//		jedis.rpush(key, randomString);
-//		System.out.println("Notifications List in Redis: " + jedis.lrange(key, 0, -1));
-//		System.out.println("Notifications list length: " + jedis.llen(key));
+		for (int i=0; i < 19; i++) {
+	    	Random random = new Random();
+	    	String randomString = JedisPractice.generateString(random, "abcdefghijklmnopqrstuvwxyz", 5);
+	   		jedis.rpush(key, randomString);
+		}
+   		
+		System.out.println("Notifications List in Redis: " + jedis.lrange(key, 0, -1));
+		System.out.println("Notifications list length: " + jedis.llen(key));
 		
 		jedis.close();
 	}

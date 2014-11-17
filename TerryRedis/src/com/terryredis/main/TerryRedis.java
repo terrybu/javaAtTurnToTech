@@ -30,10 +30,9 @@ public class TerryRedis {
 			if (jedis.llen(key) >= limit) {
 				
 				System.out.println("Detected that List " + key + " hit limit at " + limit);
-				
 				List <String> notificationsList = jedis.lrange(key, 0, -1);
 				
-				for (int i = 0; i < jedis.llen(key); i++) {
+				for (int i = 0; i < limit; i++) {
 		    		Thread LogNotifyThread = new Thread(new LogNotifyThread(notificationsList.get(i)));
 		    		LogNotifyThread.run();
 				}
@@ -46,9 +45,8 @@ public class TerryRedis {
 			}			
 		}
 		
-		System.out.println("End of Program");
-		
-//		jedisPool.returnResource(jedis);
+		System.out.println("End of Program: Length of List: " + jedis.llen(key));
+		jedisPool.returnResource(jedis);
 	}
 	
 
