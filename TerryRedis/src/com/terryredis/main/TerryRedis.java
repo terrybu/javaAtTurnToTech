@@ -1,15 +1,14 @@
 package com.terryredis.main;
-import java.util.Random;
-
+import java.util.List;
 import redis.clients.jedis.*;
-
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 
 public class TerryRedis {
-	private static JedisPool jedisPool;
+	public static JedisPool jedisPool;
+	public static Jedis jedis;
+	public static String key;
 
-	
 	public static void main(String[] args) throws InterruptedException {
 		// TODO Auto-generated method stub	
 		GenericObjectPoolConfig config = new GenericObjectPoolConfig();
@@ -18,12 +17,12 @@ public class TerryRedis {
 		//Adding testOnBorrow=true so that connections that time out are handled correctly
 		config.setTestOnBorrow(true);
 		jedisPool = new JedisPool(config, "localhost");
-		Jedis jedis = jedisPool.getResource();
+		jedis = jedisPool.getResource();
+		key = "notifications";
 		
 		//this program, after it's started, will keep checking to see if the Notifications list in Redis is ever >= limit
 		//once it hits limit, it will grab all the strings and run a console log thread for each string
 		
-		String key = "notifications";	
 		int limit = 20;
 		System.out.println("Running TerryRedis Program ... Waiting for " + key + " to hit " + limit + " elements limit");
 
@@ -32,12 +31,17 @@ public class TerryRedis {
 				
 				System.out.println("Detected that List " + key + " hit limit at " + limit);
 				
+				List <String> notificationsList = jedis.lrange(key, 0, -1);
 				
+				for (int i = 0; i < jedis.llen(key); i++) {
+		    		Thread LogNotifyThread = new Thread(new LogNotifyThread(notificationsList.get(i)));
+		    		LogNotifyThread.run();
+				}
 				
 				break;
 			}
 			else {
-				System.out.println("List count at " + jedis.llen(key) + " elements: Waiting 3 seconds");
+				System.out.println("List count at " + jedis.llen(key) + " elements: Waiting 2 seconds");
 				Thread.sleep(3000);
 			}			
 		}
@@ -47,14 +51,5 @@ public class TerryRedis {
 //		jedisPool.returnResource(jedis);
 	}
 	
-    private static String generateString(Random rng, String characters, int length)
-    {
-        char[] text = new char[length];
-        for (int i = 0; i < length; i++)
-        {
-            text[i] = characters.charAt(rng.nextInt(characters.length()));
-        }
-        return new String(text);
-    }
 
 }

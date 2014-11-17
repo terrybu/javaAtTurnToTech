@@ -2,7 +2,7 @@ import java.util.Random;
 
 import redis.clients.jedis.*;
 
-public class JedidsPractice {
+public class JedisPractice {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -13,9 +13,9 @@ public class JedidsPractice {
 		jedis.sadd("fruits", "pineapple");
 		System.out.println("Fruits set: " + jedis.smembers("fruits"));
 		System.out.println("Fruits set count: " + jedis.scard("fruits")); //scard key is like len for Sets
-//      Lists don't care about uniqueness. So you can end up adding duplicate items
 		
 		
+//      Lists don't care about uniqueness. So you can end up adding duplicate items	
 		String key = "ninjas";	
     	
 		jedis.rpush(key, "Sasuke");

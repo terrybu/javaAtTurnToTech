@@ -12,7 +12,7 @@ private String name;
         try {
     		System.out.println("From LogNotify Thread: " + this.name);
     		//Now do something to remove this element from the Redis list
-        
+    		TerryRedis.jedis.lrem(TerryRedis.key, 1, this.name);
         } catch(Exception ex) {
             ex.printStackTrace();
         } 
