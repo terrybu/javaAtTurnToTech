@@ -1,5 +1,8 @@
+package com.terryredis.main;
 import java.util.Random;
+
 import redis.clients.jedis.*;
+
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 
@@ -7,30 +10,41 @@ public class TerryRedis {
 	private static JedisPool jedisPool;
 
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		// TODO Auto-generated method stub	
 		GenericObjectPoolConfig config = new GenericObjectPoolConfig();
 		config.setMaxTotal(8);
 		config.setBlockWhenExhausted(true);
 		//Adding testOnBorrow=true so that connections that time out are handled correctly
 		config.setTestOnBorrow(true);
-
 		jedisPool = new JedisPool(config, "localhost");
 		Jedis jedis = jedisPool.getResource();
 		
-//      Lists don't care about uniqueness. So you can end up adding duplicate items
+		//this program, after it's started, will keep checking to see if the Notifications list in Redis is ever >= limit
+		//once it hits limit, it will grab all the strings and run a console log thread for each string
 		
 		String key = "notifications";	
-    	Random random = new Random();
-    	String randomString = TerryRedis.generateString(random, "abcdefghijklmnopqrstuvwxyz", 5);
-    	
-		jedis.rpush(key, randomString);
-		System.out.println("Notifications List in Redis: " + jedis.lrange(key, 0, -1));
-		System.out.println("Notifications list length: " + jedis.llen(key));
+		int limit = 20;
+		System.out.println("Running TerryRedis Program ... Waiting for " + key + " to hit " + limit + " elements limit");
+
+		while (true) {			
+			if (jedis.llen(key) >= limit) {
+				
+				System.out.println("Detected that List " + key + " hit limit at " + limit);
+				
+				
+				
+				break;
+			}
+			else {
+				System.out.println("List count at " + jedis.llen(key) + " elements: Waiting 3 seconds");
+				Thread.sleep(3000);
+			}			
+		}
 		
+		System.out.println("End of Program");
 		
-		
-		
+//		jedisPool.returnResource(jedis);
 	}
 	
     private static String generateString(Random rng, String characters, int length)
