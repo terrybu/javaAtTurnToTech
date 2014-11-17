@@ -45,7 +45,7 @@ public class TerryRedis {
 			}			
 		}
 		
-		System.out.println("End of Program: Length of List: " + jedis.llen(key));
+		System.out.println("End of Program: Length of List with name " + key + ":" + jedis.llen(key));
 		jedisPool.returnResource(jedis);
 	}
 	
