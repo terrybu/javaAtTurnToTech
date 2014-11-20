@@ -18,13 +18,19 @@ public class EventSubThread  implements Runnable {
         try {
         	//okay, we have the key of the Hash object ... so we can just get to Events List and pull those stuff out
         	Map <String, String> myEventObjectHash = jedis.hgetAll(key);
-        	
+			System.out.println("Found Event object with type: " + myEventObjectHash.get("type"));
+			System.out.println(myEventObjectHash);
+			System.out.println("\n");
+			
         	switch (myEventObjectHash.get("type")) {
 				case "tagEvent":
+					
+					//we do the "send notification" logic here
 					
 					break;
 	
 				case "tagJoinEvent":
+					//we do the "send notification" logic here
 					
 					break;
 					
@@ -41,14 +47,19 @@ public class EventSubThread  implements Runnable {
 					break;
 					
 				case "friendPollEvent":
-					
+					//we do the "send notification" logic here
+
 					break;
 					
 				default:
 					break;
 			}
-        	
-        	
+			//and then we remove the event object out of the queue
+			//first, from the events queue
+			jedis.lrem("events", 0, key);			
+			//but there's still the hash existing, so we delete out the hash too
+			jedis.del(key);
+			
         } catch(Exception ex) {
             ex.printStackTrace();
         } 

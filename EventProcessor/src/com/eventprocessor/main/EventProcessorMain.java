@@ -30,14 +30,21 @@ public class EventProcessorMain {
 		    		Thread eventSubThread = new Thread(new EventSubThread(event));
 		    		eventSubThread.run();
 				}
+			}
+			
+			else {
 				
+				System.out.println("Don't do anything because Events queue is empty");
 				try {
 					Thread.sleep(3000);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
 			}
+			
+			
 		}
 		
 		
