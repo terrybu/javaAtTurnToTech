@@ -20,7 +20,6 @@ public class EventSubThread  implements Runnable {
         	Map <String, String> myEventObjectHash = jedis.hgetAll(key);
 			System.out.println("Found Event object with type: " + myEventObjectHash.get("type"));
 			System.out.println(myEventObjectHash);
-			System.out.println("\n");
 			
         	switch (myEventObjectHash.get("type")) {
 				case "tagEvent":
@@ -59,7 +58,11 @@ public class EventSubThread  implements Runnable {
 			jedis.lrem("events", 0, key);			
 			//but there's still the hash existing, so we delete out the hash too
 			jedis.del(key);
-			
+			if (!jedis.exists(key)) {
+				System.out.println("Removed hash with key: " + key + " correctly");
+			}
+			System.out.println("\n");
+
         } catch(Exception ex) {
             ex.printStackTrace();
         } 
