@@ -1,4 +1,4 @@
-package com.eventprocessor.main;
+package com.split.eventobjects.classes;
 
 public class LikeEvent {
 	public String type;

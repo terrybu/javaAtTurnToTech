@@ -1,4 +1,4 @@
-package com.split.eventobjects;
+package com.eventprocessor.main.classes;
 
 public class VoteEvent {
 	public String type;

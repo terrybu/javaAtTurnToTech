@@ -1,4 +1,4 @@
-package com.split.eventobjects;
+package com.split.eventobjects.classes;
 
 public class TagJoinEvent {
 	public String type;

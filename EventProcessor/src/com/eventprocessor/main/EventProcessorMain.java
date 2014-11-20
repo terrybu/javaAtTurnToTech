@@ -22,8 +22,8 @@ public class EventProcessorMain {
 		jedis = jedisPool.getResource();
 		
 		while (true) {
-			if (jedis.llen("Events") > 0 ) {
-				List <String> myListOfEvents = jedis.lrange("Events", 0, -1);
+			if (jedis.llen("events") > 0 ) {
+				List <String> myListOfEvents = jedis.lrange("events", 0, -1);
 //				System.out.println(myListOfEvents);
 				
 				for (String event: myListOfEvents) {

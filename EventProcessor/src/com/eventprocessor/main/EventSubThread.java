@@ -1,7 +1,7 @@
 package com.eventprocessor.main;
 
+import com.eventprocessor.main.classes.*;
 import java.util.Map;
-
 import redis.clients.jedis.Jedis;
 
 public class EventSubThread  implements Runnable {
@@ -17,11 +17,38 @@ public class EventSubThread  implements Runnable {
     public void run() {
         try {
         	//okay, we have the key of the Hash object ... so we can just get to Events List and pull those stuff out
-        	Map <String, String> myEventHash = jedis.hgetAll(key);
-        	System.out.println(myEventHash);
+        	Map <String, String> myEventObjectHash = jedis.hgetAll(key);
+        	
+        	switch (myEventObjectHash.get("type")) {
+				case "tagEvent":
+					
+					break;
+	
+				case "tagJoinEvent":
+					
+					break;
+					
+				case "voteEvent":
+					
+					break;
+					
+				case "commentEvent":
+					
+					break;
+				
+				case "likeEvent":
+					
+					break;
+					
+				case "friendPollEvent":
+					
+					break;
+					
+				default:
+					break;
+			}
         	
         	
-        	//    		TerryRedis.jedis.lrem(TerryRedis.key, 0, this.name);
         } catch(Exception ex) {
             ex.printStackTrace();
         } 

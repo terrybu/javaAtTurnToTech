@@ -1,4 +1,4 @@
-package com.eventprocessor.main;
+package com.eventprocessor.main.classes;
 
 public class TagEvent {
 		public String type;
