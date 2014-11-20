@@ -1,7 +1,6 @@
 package com.split.eventobjects;
 import java.util.HashMap;
 import java.util.Map;
-
 import redis.clients.jedis.*;
 
 public class EventClassesTestMain {
