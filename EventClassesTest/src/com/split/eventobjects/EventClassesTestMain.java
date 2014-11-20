@@ -11,11 +11,12 @@ public class EventClassesTestMain {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		TagEvent tagEvent = new TagEvent("tagEvent", new String[]{"johnID", "degerID", "larryID"}, "32", "2014-11-20", "terryID");
 		jedis = new Jedis("localhost");
 
 		eventsCount = jedis.llen("Events");
 		String keyForEventObject = "Event:" + eventsCount;
+		TagEvent tagEvent = new TagEvent("tagEvent", new String[]{"kyuhyunID", "guraID", "jongshinID"}, "34", "2013-9-20", "terryID");
+
 		Map <String, String> myMap = EventClassesTestMain.turnEventObjectIntoHashMap(tagEvent);
 		
 		//we make the Event object hash
