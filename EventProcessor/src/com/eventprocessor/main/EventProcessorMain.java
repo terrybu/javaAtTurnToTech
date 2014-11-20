@@ -1,11 +1,10 @@
 package com.eventprocessor.main;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
-import redis.clients.jedis.*;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 public class EventProcessorMain {
 
@@ -25,7 +24,13 @@ public class EventProcessorMain {
 		while (true) {
 			if (jedis.llen("Events") > 0 ) {
 				List <String> myListOfEvents = jedis.lrange("Events", 0, -1);
-				System.out.println(myListOfEvents);
+//				System.out.println(myListOfEvents);
+				
+				for (String event: myListOfEvents) {
+		    		Thread eventSubThread = new Thread(new EventSubThread(event));
+		    		eventSubThread.run();
+				}
+				
 				try {
 					Thread.sleep(3000);
 				} catch (InterruptedException e) {
