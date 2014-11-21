@@ -34,7 +34,7 @@ public class EventProcessorMain {
 			
 			else {
 				
-				System.out.println("Don't do anything because Events queue is empty");
+				System.out.println("Events Processor: Listening .... Don't do anything because Events queue is empty");
 				try {
 					Thread.sleep(3000);
 				} catch (InterruptedException e) {
