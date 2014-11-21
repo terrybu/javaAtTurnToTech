@@ -53,6 +53,8 @@ public class EventSubThread  implements Runnable {
 				default:
 					break;
 			}
+        	System.out.println("Do whatever notification logic here for type: " + myEventObjectHash.get("type"));
+        	System.out.println("******");
 			//and then we remove the event object out of the queue
 			//first, from the events queue
 			jedis.lrem("events", 0, key);			
