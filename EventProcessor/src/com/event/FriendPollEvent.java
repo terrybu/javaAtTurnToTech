@@ -1,4 +1,4 @@
-package com.eventprocessor.main.classes;
+package com.event;
 
 public class FriendPollEvent {
 	public String type;
