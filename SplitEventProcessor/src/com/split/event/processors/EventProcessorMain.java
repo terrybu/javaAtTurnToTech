@@ -1,4 +1,4 @@
-package com.event.processor;
+package com.split.event.processors;
 import java.util.List;
 import java.util.Map;
 
@@ -7,7 +7,7 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
-public class EventProcessor {
+public class EventProcessorMain {
 
 	public static JedisPool jedisPool;
 	public static Jedis jedis;

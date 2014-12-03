@@ -1,4 +1,4 @@
-package com.event;
+package com.split.event.classes;
 
 public class CommentEvent {
 	private String type;

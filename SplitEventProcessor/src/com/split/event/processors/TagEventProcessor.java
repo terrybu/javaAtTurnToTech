@@ -1,16 +1,16 @@
-package com.event.processor;
-
+package com.split.event.processors;
 import java.util.Map;
 
 import redis.clients.jedis.Jedis;
 
-public class VoteEventProcessor implements Runnable {
+public class TagEventProcessor implements Runnable {
+
 	public String eventKey;
 	public Jedis jedis;
 
-    public VoteEventProcessor (String eventKey) {
+    public TagEventProcessor (String eventKey) {
     	this.eventKey = eventKey;
-    	this.jedis = EventProcessor.jedis;
+    	this.jedis = EventProcessorMain.jedis;
     }
 	
 	@Override

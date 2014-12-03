@@ -1,9 +1,8 @@
-package com.split.eventobjects;
+package com.split.fillDummy;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-import com.split.eventobjects.classes.*;
+import com.split.event.classes.*;
 
 import redis.clients.jedis.*;
 
@@ -54,43 +53,43 @@ public class FillRedisDummyEventObjects {
 	
 	public static Map<String, String> turnCommentEventObjectIntoHashMap(CommentEvent commentEvent) {
 		Map<String, String> myMap = new HashMap<String, String> ();
-		myMap.put("type", commentEvent.type);
-		myMap.put("recipients", commentEvent.recipients[0]);
-		myMap.put("commentAuthors", commentEvent.commentAuthors[0]);
-		myMap.put("pollID", commentEvent.pollID);
-		myMap.put("pollTimeStamp", commentEvent.pollTimeStamp);
-		myMap.put("commentID", commentEvent.commentID);
-		myMap.put("commentTimeStamp", commentEvent.commentTimeStamp);
+		myMap.put("type", commentEvent.getType());
+		myMap.put("recipients", commentEvent.getRecipients());
+		myMap.put("commentAuthors", commentEvent.getCommentAuthors());
+		myMap.put("pollID", commentEvent.getPollID());
+		myMap.put("pollTimeStamp", commentEvent.getPollTimeStamp());
+		myMap.put("commentID", commentEvent.getCommentID());
+		myMap.put("commentTimeStamp", commentEvent.getCommentTimeStamp());
 
 		return myMap;
 	}
 	
 	public static Map<String, String> turnTagEventObjectIntoHashMap(TagEvent tagEvent) {
 		Map<String, String> myMap = new HashMap<String, String> ();
-		myMap.put("type", tagEvent.type);
-		myMap.put("recipients", FillRedisDummyEventObjects.turnRecipientsArrayIntoRedisSetAndReturnKey(tagEvent.recipients));
-		myMap.put("pollID", tagEvent.pollID);
-		myMap.put("pollTimeStamp", tagEvent.pollTimeStamp);
-		myMap.put("taggerID", tagEvent.taggerID);
+		myMap.put("type", tagEvent.getType());
+		myMap.put("recipients", FillRedisDummyEventObjects.turnRecipientsArrayIntoRedisSetAndReturnKey(tagEvent.getRecipients()));
+		myMap.put("pollID", tagEvent.getPollID());
+		myMap.put("pollTimeStamp", tagEvent.getPollTimeStamp());
+		myMap.put("taggerID", tagEvent.getTaggerID());
 		return myMap;
 	}
 	
 	public static Map<String, String> turnFriendPollEventIntoHashMap(FriendPollEvent friendPollEvent) {
 		Map<String, String> myMap = new HashMap<String, String> ();
-		myMap.put("type", friendPollEvent.type);
-		myMap.put("recipients", FillRedisDummyEventObjects.turnRecipientsArrayIntoRedisSetAndReturnKey(friendPollEvent.recipients));
-		myMap.put("pollID", friendPollEvent.pollID);
-		myMap.put("pollTimeStamp", friendPollEvent.pollTimeStamp);
-		myMap.put("pollAuthor", friendPollEvent.pollAuthor);
+		myMap.put("type", friendPollEvent.getType());
+		myMap.put("recipients", FillRedisDummyEventObjects.turnRecipientsArrayIntoRedisSetAndReturnKey(friendPollEvent.getRecipients()));
+		myMap.put("pollID", friendPollEvent.getPollID());
+		myMap.put("pollTimeStamp", friendPollEvent.getPollTimeStamp());
+		myMap.put("pollAuthor", friendPollEvent.getPollAuthor());
 		
 		return myMap;
 	}
 	
 	public static Map<String, String> turnTagJoinEventIntoHashMap(TagJoinEvent tagJoinEvent) {
 		Map<String, String> myMap = new HashMap<String, String> ();
-		myMap.put("type", tagJoinEvent.type);
-		myMap.put("recipients", FillRedisDummyEventObjects.turnRecipientsArrayIntoRedisSetAndReturnKey(tagJoinEvent.recipients));
-		myMap.put("taggedContact", tagJoinEvent.taggedContact);
+		myMap.put("type", tagJoinEvent.getType());
+		myMap.put("recipients", FillRedisDummyEventObjects.turnRecipientsArrayIntoRedisSetAndReturnKey(tagJoinEvent.getRecipients()));
+		myMap.put("taggedContact", tagJoinEvent.getTaggedContact());
 		
 		return myMap;
 	 }

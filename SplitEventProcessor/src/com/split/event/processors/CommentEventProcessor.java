@@ -1,4 +1,4 @@
-package com.event.processor;
+package com.split.event.processors;
 
 import java.util.Map;
 
@@ -10,7 +10,7 @@ public class CommentEventProcessor implements Runnable {
 
     public CommentEventProcessor (String eventKey) {
     	this.eventKey = eventKey;
-    	this.jedis = EventProcessor.jedis;
+    	this.jedis = EventProcessorMain.jedis;
     }
 	
 	@Override

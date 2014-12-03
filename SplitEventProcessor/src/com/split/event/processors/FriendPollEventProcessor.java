@@ -1,16 +1,16 @@
-package com.event.processor;
+package com.split.event.processors;
+
 import java.util.Map;
 
 import redis.clients.jedis.Jedis;
 
-public class TagEventProcessor implements Runnable {
-
+public class FriendPollEventProcessor implements Runnable {
 	public String eventKey;
 	public Jedis jedis;
 
-    public TagEventProcessor (String eventKey) {
+    public FriendPollEventProcessor (String eventKey) {
     	this.eventKey = eventKey;
-    	this.jedis = EventProcessor.jedis;
+    	this.jedis = EventProcessorMain.jedis;
     }
 	
 	@Override
