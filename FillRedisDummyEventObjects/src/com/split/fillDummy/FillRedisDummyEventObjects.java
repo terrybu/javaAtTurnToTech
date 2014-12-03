@@ -1,10 +1,7 @@
 package com.split.fillDummy;
-import java.util.HashMap;
 import java.util.Map;
-
+import redis.clients.jedis.Jedis;
 import com.split.event.classes.*;
-
-import redis.clients.jedis.*;
 
 public class FillRedisDummyEventObjects {
 
@@ -21,97 +18,75 @@ public class FillRedisDummyEventObjects {
 		String commentID = "1619729e-9c9b-4046-b43f-459d5f8e8176:polls:pollID:1:comments:commentID:11";
 		String myPollTimeStamp = jedis.hget(somePollID, "polltimeStamp");
 		String myCommentTimeStamp = jedis.hget(commentID, "commentTimeStamp");
+		CommentEvent dummyCommentEvent = new CommentEvent(new String[]{recipientPollAuthor}, new String[]{commentAuthor}, somePollID, commentID, myPollTimeStamp, myCommentTimeStamp);
+		Map <String, String> hashForDummyCommentEvent = dummyCommentEvent.turnIntoHashMapForRedis();
+		FillRedisDummyEventObjects.createHashRedisWithEventsKey(hashForDummyCommentEvent);
 		
-		CommentEvent dummyCommentEvent = new CommentEvent("commentEvent", new String[]{recipientPollAuthor}, new String[]{commentAuthor}, somePollID, commentID, myPollTimeStamp, myCommentTimeStamp);
-		Map <String, String> hashForDummyCommentEvent = FillRedisDummyEventObjects.turnCommentEventObjectIntoHashMap(dummyCommentEvent);
-		FillRedisDummyEventObjects.createHashinRedisWithUniqueKey(hashForDummyCommentEvent);
+		String someUserID = "ad69fb44-a04a-4acd-904a-b04c38a1ebd7";
+		String somePollID2 = someUserID + ":polls:pollID:1";
+		FriendPollEvent dummyFriendPollEvent = new FriendPollEvent(someUserID + ":firstDegreeFriends", somePollID2, someUserID, jedis.hget(somePollID2, "polltimeStamp"));
+		Map <String, String> hashForDummyFriendPollEvent = dummyFriendPollEvent.turnFriendPollEventIntoHashMap();
+		FillRedisDummyEventObjects.createHashRedisWithEventsKey(hashForDummyFriendPollEvent);
 		
-		//dummy events filling in below
-//		TagEvent dummyTagEvent = new TagEvent("tagEvent", new String[]{"kyuhyunID", "guraID", "jongshinID"}, "34", "2013-9-20", "terryID");
-//		FriendPollEvent dummyFriendPollEvent = new FriendPollEvent("friendPollEvent", new String[]{"blahID", "britishID"}, "27", "victoria", "2015-1-1");
-//		TagJoinEvent dummyTagJoinEvent = new TagJoinEvent("tagJoinEvent", new String[]{"jeremyID", "johnsonID"}, "pikachuID");
-//		
-//		Map <String, String> hashForDummyTagEvent = FillRedisDummyEventObjects.turnTagEventObjectIntoHashMap(dummyTagEvent);
-//		Map <String, String> hashForDummyFriendPollEvent = FillRedisDummyEventObjects.turnFriendPollEventIntoHashMap(dummyFriendPollEvent);
-//		Map <String, String> hashForDummyTagJoinEvent = FillRedisDummyEventObjects.turnTagJoinEventIntoHashMap(dummyTagJoinEvent);
-//
-//		FillRedisDummyEventObjects.createHashinRedisWithUniqueKey(hashForDummyTagEvent);
-//		FillRedisDummyEventObjects.createHashinRedisWithUniqueKey(hashForDummyFriendPollEvent);
-//		FillRedisDummyEventObjects.createHashinRedisWithUniqueKey(hashForDummyTagJoinEvent);
-
+		String commentAuthor3 = "1619729e-9c9b-4046-b43f-459d5f8e8176";
+		String commentLikerID3 = "abd1807e-1851-472c-a54d-b6e9b6b02799";
+		String commentID3 = "1619729e-9c9b-4046-b43f-459d5f8e8176:polls:pollID:1:comments:commentID:1";
+		String commentTimeStamp3 = jedis.hget(commentID3, "commentTimeStamp");
+		String pollID3 = "1619729e-9c9b-4046-b43f-459d5f8e8176:polls:pollID:1";
+		String pollTimeStamp3 = jedis.hget(pollID3, "polltimeStamp");
+		LikeEvent dummyLikeEvent = new LikeEvent(new String[] {commentAuthor3}, new String[] {commentLikerID3}, commentID3, commentTimeStamp3, pollID3, pollTimeStamp3);
+		FillRedisDummyEventObjects.sendEventObjectToRedis(dummyLikeEvent);
+		
 		System.out.println("Done with Filling Redis With Dummy Event Objects");
-		
 		jedis.close();
 	}
 	
-	public static void createHashinRedisWithUniqueKey (Map <String, String> myEventHash) {
+	public static void sendEventObjectToRedis (LikeEvent likeEvent) {
+		Map <String, String> myEventHash = likeEvent.turnIntoHashMapForRedis();
+		FillRedisDummyEventObjects.createHashRedisWithEventsKey(myEventHash);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public static void createHashRedisWithEventsKey (Map <String, String> myEventHash) {
 		long eventsCount = jedis.llen("events");
 		String uniqueKeyForEventObject = "events:" +eventsCount;
 		jedis.hmset(uniqueKeyForEventObject,  myEventHash);		
 		jedis.rpush("events", uniqueKeyForEventObject);
 	}
 	
-	public static Map<String, String> turnCommentEventObjectIntoHashMap(CommentEvent commentEvent) {
-		Map<String, String> myMap = new HashMap<String, String> ();
-		myMap.put("type", commentEvent.getType());
-		myMap.put("recipients", commentEvent.getRecipients());
-		myMap.put("commentAuthors", commentEvent.getCommentAuthors());
-		myMap.put("pollID", commentEvent.getPollID());
-		myMap.put("pollTimeStamp", commentEvent.getPollTimeStamp());
-		myMap.put("commentID", commentEvent.getCommentID());
-		myMap.put("commentTimeStamp", commentEvent.getCommentTimeStamp());
-
-		return myMap;
-	}
-	
-	public static Map<String, String> turnTagEventObjectIntoHashMap(TagEvent tagEvent) {
-		Map<String, String> myMap = new HashMap<String, String> ();
-		myMap.put("type", tagEvent.getType());
-		myMap.put("recipients", FillRedisDummyEventObjects.turnRecipientsArrayIntoRedisSetAndReturnKey(tagEvent.getRecipients()));
-		myMap.put("pollID", tagEvent.getPollID());
-		myMap.put("pollTimeStamp", tagEvent.getPollTimeStamp());
-		myMap.put("taggerID", tagEvent.getTaggerID());
-		return myMap;
-	}
-	
-	public static Map<String, String> turnFriendPollEventIntoHashMap(FriendPollEvent friendPollEvent) {
-		Map<String, String> myMap = new HashMap<String, String> ();
-		myMap.put("type", friendPollEvent.getType());
-		myMap.put("recipients", FillRedisDummyEventObjects.turnRecipientsArrayIntoRedisSetAndReturnKey(friendPollEvent.getRecipients()));
-		myMap.put("pollID", friendPollEvent.getPollID());
-		myMap.put("pollTimeStamp", friendPollEvent.getPollTimeStamp());
-		myMap.put("pollAuthor", friendPollEvent.getPollAuthor());
-		
-		return myMap;
-	}
-	
-	public static Map<String, String> turnTagJoinEventIntoHashMap(TagJoinEvent tagJoinEvent) {
-		Map<String, String> myMap = new HashMap<String, String> ();
-		myMap.put("type", tagJoinEvent.getType());
-		myMap.put("recipients", FillRedisDummyEventObjects.turnRecipientsArrayIntoRedisSetAndReturnKey(tagJoinEvent.getRecipients()));
-		myMap.put("taggedContact", tagJoinEvent.getTaggedContact());
-		
-		return myMap;
-	 }
 	
 	
-	public static String turnRecipientsArrayIntoRedisSetAndReturnKey (String[] recipientsArray){
-		recipientsKeyCounter += 1;
-		String recipientsSetKey = "recipients" + recipientsKeyCounter;
-		String concatenatedRecipients = "";
-		
-		for (int i=0; i < recipientsArray.length; i++) {
-			if (concatenatedRecipients.isEmpty()) {
-				concatenatedRecipients += recipientsArray[i];
-			}
-			else {
-				concatenatedRecipients += " " + recipientsArray[i];
-			}
-		}
-		
-		jedis.sadd(recipientsSetKey, concatenatedRecipients);
-		
-		return recipientsSetKey;
-	}
+//	public static String turnRecipientsArrayIntoRedisSetAndReturnKey (String[] recipientsArray){
+//		recipientsKeyCounter += 1;
+//		String recipientsSetKey = "recipients" + recipientsKeyCounter;
+//		String concatenatedRecipients = "";
+//		
+//		for (int i=0; i < recipientsArray.length; i++) {
+//			if (concatenatedRecipients.isEmpty()) {
+//				concatenatedRecipients += recipientsArray[i];
+//			}
+//			else {
+//				concatenatedRecipients += " " + recipientsArray[i];
+//			}
+//		}
+//		
+//		jedis.sadd(recipientsSetKey, concatenatedRecipients);
+//		
+//		return recipientsSetKey;
+//	}
 
 }

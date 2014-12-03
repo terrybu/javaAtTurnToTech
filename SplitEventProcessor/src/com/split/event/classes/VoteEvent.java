@@ -12,9 +12,9 @@ public class VoteEvent {
 		// TODO Auto-generated constructor stub
 	}
 
-	public VoteEvent(String type, String[] recipients, String[] voters, String pollID, String pollTimeStamp) {
+	public VoteEvent(String[] recipients, String[] voters, String pollID, String pollTimeStamp) {
 		super();
-		this.type = type;
+		this.type = "voteEvent";
 		this.recipients = recipients;
 		this.voters = voters;
 		this.pollID = pollID;

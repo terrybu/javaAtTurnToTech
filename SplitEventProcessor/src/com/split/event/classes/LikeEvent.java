@@ -1,5 +1,8 @@
 package com.split.event.classes;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class LikeEvent {
 	private String type;
 	private String[] recipients; 
@@ -14,10 +17,10 @@ public class LikeEvent {
 		// TODO Auto-generated constructor stub
 	}
 
-	public LikeEvent(String type, String[] recipients, String[] likers, String commentID, String commentTimeStamp, String pollID,
+	public LikeEvent(String[] recipients, String[] likers, String commentID, String commentTimeStamp, String pollID,
 			String pollTimeStamp) {
 		super();
-		this.type = type;
+		this.type = "likeEvent";
 		this.recipients = recipients;
 		this.likers = likers;
 		this.commentID = commentID;
@@ -26,6 +29,20 @@ public class LikeEvent {
 		this.pollTimeStamp = pollTimeStamp;
 	}
 
+
+	
+	public Map<String, String> turnIntoHashMapForRedis () {
+		Map<String, String> myMap = new HashMap<String, String> ();
+		myMap.put("type", this.getType());
+		myMap.put("recipients", this.getRecipients()[0]);
+		myMap.put("likers", this.getLikers()[0]);
+		myMap.put("commentID", this.getCommentID());
+		myMap.put("commentTimeStamp", this.getCommentTimeStamp());
+		myMap.put("pollID", this.getPollID());
+		myMap.put("pollTimeStamp", this.getPollTimeStamp());
+		return myMap;
+	}
+	
 	public String getType() {
 		return type;
 	}

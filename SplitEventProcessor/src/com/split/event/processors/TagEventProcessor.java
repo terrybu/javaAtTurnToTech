@@ -26,7 +26,7 @@ public class TagEventProcessor implements Runnable {
 		//but there's still the hash existing, so we delete out the hash too
 		jedis.del(eventKey);
 		if (!jedis.exists(eventKey)) {
-			System.out.println("Removed hash with key: " + eventKey + " correctly");
+			System.out.println(eventKey + " removed correctly");
 		}
 
 	}

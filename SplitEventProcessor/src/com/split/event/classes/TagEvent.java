@@ -1,5 +1,8 @@
 package com.split.event.classes;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class TagEvent {
 	private String type;
 	private String[] recipients;
@@ -12,14 +15,24 @@ public class TagEvent {
 		// TODO Auto-generated constructor stub
 	}
 
-	public TagEvent(String type, String[] recipients, String pollID, String pollTimeStamp, String taggerID) {
-		this.type = type;
+	public TagEvent(String[] recipients, String pollID, String pollTimeStamp, String taggerID) {
+		this.type = "tagEvent";
 		this.recipients = recipients;
 		this.pollID = pollID;
 		this.pollTimeStamp = pollTimeStamp;
 		this.taggerID = taggerID;
 	}
 
+	public Map<String, String> turnTagEventObjectIntoHashMap() {
+		Map<String, String> myMap = new HashMap<String, String> ();
+		myMap.put("type", this.getType());
+		myMap.put("recipients", this.getRecipients()[0]);
+		myMap.put("pollID", this.getPollID());
+		myMap.put("pollTimeStamp", this.getPollTimeStamp());
+		myMap.put("taggerID", this.getTaggerID());
+		return myMap;
+	}
+	
 	public String getType() {
 		return type;
 	}

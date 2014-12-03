@@ -15,9 +15,7 @@ public class CommentEventProcessor implements Runnable {
 	
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
     	Map <String, String> eventObjectHash = jedis.hgetAll(eventKey);
-//    	System.out.println("Event Key is " + eventKey + " EventType: " + eventObjectHash.get("type"));
     	
     	//In To, Subject, Body Email Format
     	System.out.println("\n");
@@ -36,9 +34,11 @@ public class CommentEventProcessor implements Runnable {
 		//but there's still the hash existing, so we delete out the hash too
 		jedis.del(eventKey);
 		if (!jedis.exists(eventKey)) {
-			System.out.println("Removed hash with key: " + eventKey + " correctly");
+			System.out.println(eventKey + " removed correctly");
 		}
-
 	}
 
+	
+	
+	
 }

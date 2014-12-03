@@ -1,5 +1,8 @@
 package com.split.event.classes;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CommentEvent {
 	private String type;
 	private String[] recipients; 
@@ -10,15 +13,14 @@ public class CommentEvent {
 	private String commentTimeStamp;
 	
 	
-	
 	public CommentEvent() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public CommentEvent(String type, String[] recipients, String[] commentAuthors, String pollID, String commentID,String pollTimeStamp, String commentTimeStamp) {
+	public CommentEvent(String[] recipients, String[] commentAuthors, String pollID, String commentID,String pollTimeStamp, String commentTimeStamp) {
 		super();
-		this.type = type;
+		this.type = "commentEvent";
 		this.recipients = recipients;
 		this.commentAuthors = commentAuthors;
 		this.pollID = pollID;
@@ -26,6 +28,22 @@ public class CommentEvent {
 		this.pollTimeStamp = pollTimeStamp;
 		this.commentTimeStamp = commentTimeStamp;
 	}
+	
+	public Map<String, String> turnIntoHashMapForRedis () {
+		Map<String, String> myMap = new HashMap<String, String> ();
+		myMap.put("type", this.getType());
+		myMap.put("recipients", this.getRecipients()[0]);
+		myMap.put("commentAuthors", this.getCommentAuthors()[0]);
+		myMap.put("pollID", this.getPollID());
+		myMap.put("pollTimeStamp", this.getPollTimeStamp());
+		myMap.put("commentID", this.getCommentID());
+		myMap.put("commentTimeStamp", this.getCommentTimeStamp());
+
+		return myMap;
+	}
+	
+	
+	
 
 	public String getType() {
 		return type;
