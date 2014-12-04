@@ -1,4 +1,5 @@
 package com.split.event.processors;
+import java.util.List;
 import java.util.Map;
 
 import redis.clients.jedis.Jedis;
@@ -17,9 +18,19 @@ public class TagEventProcessor implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
     	Map <String, String> eventObjectHash = jedis.hgetAll(eventKey);
-    	System.out.println("Event Key:" + eventKey + " EventType: " + eventObjectHash.get("type"));
-		System.out.println(eventObjectHash);
-		
+    	
+    	//In To, Subject, Body Email Format
+    	System.out.println("\n");
+    	    
+    	List <String> taggedContactsList = jedis.lrange(eventObjectHash.get("recipients"), 0, -1);
+    	
+		System.out.println("TO: " +   taggedContactsList.toString()      );
+		System.out.println("SUBJECT: Somebody tagged you in a poll!");
+		System.out.println("BODY: ");
+		System.out.println("Poll ID:" + eventObjectHash.get("pollID"));
+		System.out.println("Poll TimeStamp:" + eventObjectHash.get("pollTimeStamp"));
+		System.out.println("Tagger ID:" + eventObjectHash.get("taggerID"));
+
 		//and then we remove the event object out of the queue
 		//first, from the events queue
 		jedis.lrem("events", 0, eventKey);			
@@ -28,7 +39,6 @@ public class TagEventProcessor implements Runnable {
 		if (!jedis.exists(eventKey)) {
 			System.out.println(eventKey + " removed correctly");
 		}
-
 	}
 
 }

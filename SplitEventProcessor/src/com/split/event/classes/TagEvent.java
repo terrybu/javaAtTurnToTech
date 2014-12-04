@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class TagEvent {
 	private String type;
-	private String[] recipients;
+	private String recipients;
 	private String pollID;
 	private String pollTimeStamp;
 	private String taggerID;
@@ -15,7 +15,7 @@ public class TagEvent {
 		// TODO Auto-generated constructor stub
 	}
 
-	public TagEvent(String[] recipients, String pollID, String pollTimeStamp, String taggerID) {
+	public TagEvent(String recipients, String pollID, String pollTimeStamp, String taggerID) {
 		this.type = "tagEvent";
 		this.recipients = recipients;
 		this.pollID = pollID;
@@ -23,10 +23,10 @@ public class TagEvent {
 		this.taggerID = taggerID;
 	}
 
-	public Map<String, String> turnTagEventObjectIntoHashMap() {
+	public Map<String, String> turnIntoHashMapForRedis() {
 		Map<String, String> myMap = new HashMap<String, String> ();
 		myMap.put("type", this.getType());
-		myMap.put("recipients", this.getRecipients()[0]);
+		myMap.put("recipients", this.getRecipients());
 		myMap.put("pollID", this.getPollID());
 		myMap.put("pollTimeStamp", this.getPollTimeStamp());
 		myMap.put("taggerID", this.getTaggerID());
@@ -41,11 +41,11 @@ public class TagEvent {
 		this.type = type;
 	}
 
-	public String[] getRecipients() {
+	public String getRecipients() {
 		return recipients;
 	}
 
-	public void setRecipients(String[] recipients) {
+	public void setRecipients(String recipients) {
 		this.recipients = recipients;
 	}
 

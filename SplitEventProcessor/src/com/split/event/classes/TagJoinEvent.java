@@ -20,7 +20,7 @@ public class TagJoinEvent {
 		this.taggedContact = taggedContact;
 	}
 	
-	public Map<String, String> turnTagJoinEventIntoHashMap() {
+	public Map<String, String> turnIntoHashMapForRedis() {
 		Map<String, String> myMap = new HashMap<String, String> ();
 		myMap.put("type", this.getType());
 		myMap.put("recipients", this.getRecipients()[0]);

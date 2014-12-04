@@ -1,5 +1,8 @@
 package com.split.event.classes;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class VoteEvent {
 	private String type;
 	private String[] recipients; 
@@ -21,6 +24,16 @@ public class VoteEvent {
 		this.pollTimeStamp = pollTimeStamp;
 	}
 
+	public Map<String, String> turnIntoHashMapForRedis() {
+		Map<String, String> myMap = new HashMap<String, String> ();
+		myMap.put("type", this.getType());
+		myMap.put("recipients", this.getRecipients()[0]);
+		myMap.put("pollID", this.getPollID());
+		myMap.put("pollTimeStamp", this.getPollTimeStamp());
+		return myMap;
+	}
+	
+	
 	public String getType() {
 		return type;
 	}

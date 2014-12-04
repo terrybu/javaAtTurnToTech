@@ -24,7 +24,7 @@ public class FriendPollEvent {
 		this.pollTimeStamp = pollTimeStamp;
 	}
 	
-	public Map<String, String> turnFriendPollEventIntoHashMap() {
+	public Map<String, String> turnIntoHashMapForRedis() {
 		Map<String, String> myMap = new HashMap<String, String> ();
 		myMap.put("type", this.getType());
 		myMap.put("recipients",this.getRecipients());
