@@ -1,6 +1,7 @@
 package com.split.fillDummy;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import redis.clients.jedis.Jedis;
 
@@ -55,10 +56,18 @@ public class FillRedisDummyEventObjects {
 		TagJoinEvent dummyTagJoinEvent = new TagJoinEvent(new String[] {tagger5}, taggedContactNumber);
 		FillRedisDummyEventObjects.sendEventObjectToRedis(dummyTagJoinEvent);
 		
-		
 		//VoteEvent
+		String pollID6 = "ad69fb44-a04a-4acd-904a-b04c38a1ebd7:polls:pollID:1";
+		String pollTimeStamp6 = jedis.hget(pollID6, "polltimeStamp");
+		String pollAuthor6 = "ad69fb44-a04a-4acd-904a-b04c38a1ebd7";
 		
+		Set<String> voters6set = jedis.smembers("ad69fb44-a04a-4acd-904a-b04c38a1ebd7:polls:pollID:1:voters");
+		String[] voters6 = voters6set.toArray(new String[voters6set.size()]);
 		
+		String voteID6 = "ad69fb44-a04a-4acd-904a-b04c38a1ebd7:polls:pollID:1:votes:voteID:1";
+		String voteTimeStamp6 = jedis.hget(voteID6, "voteTimeStamp");
+		VoteEvent dummyVoteEvent = new VoteEvent(new String[] {pollAuthor6}, voters6, voteID6, voteTimeStamp6, pollID6, pollTimeStamp6);
+		FillRedisDummyEventObjects.sendEventObjectToRedis(dummyVoteEvent);
 		
 		System.out.println("Done with Sending Dummy Event Objects to Redis");
 		jedis.close();

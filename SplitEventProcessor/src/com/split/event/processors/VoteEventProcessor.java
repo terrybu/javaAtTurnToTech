@@ -21,9 +21,10 @@ public class VoteEventProcessor implements Runnable {
     	System.out.println("\n");
     	    	
 		System.out.println("TO: " +     	eventObjectHash.get("recipients")       );
-		System.out.println("SUBJECT: Somebody liked your comment!");
+		System.out.println("SUBJECT: Someone voted on your poll!");
 		System.out.println("BODY: ");
 		System.out.println("Voters:" + eventObjectHash.get("voters"));
+		System.out.println("Vote TimeStamp:" + eventObjectHash.get("voteTimeStamp"));
 		System.out.println("Poll ID:" + eventObjectHash.get("pollID"));
 		System.out.println("Poll TimeStamp:" + eventObjectHash.get("pollTimeStamp"));
 

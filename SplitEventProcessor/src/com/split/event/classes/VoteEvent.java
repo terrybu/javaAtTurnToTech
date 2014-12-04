@@ -7,6 +7,8 @@ public class VoteEvent {
 	private String type;
 	private String[] recipients; 
 	private String[] voters; 
+	private String voteID; 
+	private String voteTimeStamp; 
 	private String pollID; 
 	private String pollTimeStamp;
 	
@@ -15,11 +17,13 @@ public class VoteEvent {
 		// TODO Auto-generated constructor stub
 	}
 
-	public VoteEvent(String[] recipients, String[] voters, String pollID, String pollTimeStamp) {
+	public VoteEvent(String[] recipients, String[] voters, String voteID, String voteTimeStamp, String pollID, String pollTimeStamp) {
 		super();
 		this.type = "voteEvent";
 		this.recipients = recipients;
 		this.voters = voters;
+		this.voteID = voteID;
+		this.voteTimeStamp = voteTimeStamp;
 		this.pollID = pollID;
 		this.pollTimeStamp = pollTimeStamp;
 	}
@@ -28,6 +32,9 @@ public class VoteEvent {
 		Map<String, String> myMap = new HashMap<String, String> ();
 		myMap.put("type", this.getType());
 		myMap.put("recipients", this.getRecipients()[0]);
+		myMap.put("voters", this.getVoters()[0]);
+		myMap.put("voteID", this.getVoteID());
+		myMap.put("voteTimeStamp", this.getVoteTimeStamp());
 		myMap.put("pollID", this.getPollID());
 		myMap.put("pollTimeStamp", this.getPollTimeStamp());
 		return myMap;
@@ -72,6 +79,23 @@ public class VoteEvent {
 
 	public void setPollTimeStamp(String pollTimeStamp) {
 		this.pollTimeStamp = pollTimeStamp;
+	}
+
+
+	public String getVoteTimeStamp() {
+		return voteTimeStamp;
+	}
+
+	public void setVoteTimeStamp(String voteTimeStamp) {
+		this.voteTimeStamp = voteTimeStamp;
+	}
+
+	public String getVoteID() {
+		return voteID;
+	}
+
+	public void setVoteID(String voteID) {
+		this.voteID = voteID;
 	} 
 	
 }
