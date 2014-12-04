@@ -18,9 +18,14 @@ public class TagJoinEventProcessor implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
     	Map <String, String> eventObjectHash = jedis.hgetAll(eventKey);
-    	System.out.println("Event Key:" + eventKey + " EventType: " + eventObjectHash.get("type"));
-		System.out.println(eventObjectHash);
-		
+    	
+    	//In To, Subject, Body Email Format
+    	System.out.println("\n");    	
+		System.out.println("TO: " +     	eventObjectHash.get("recipients")       );
+		System.out.println("SUBJECT: Your Tagged Contact Joined!");
+		System.out.println("BODY: ");
+		System.out.println("Tagged Contact: " + eventObjectHash.get("taggedContact"));
+
 		//and then we remove the event object out of the queue
 		//first, from the events queue
 		jedis.lrem("events", 0, eventKey);			
@@ -29,7 +34,6 @@ public class TagJoinEventProcessor implements Runnable {
 		if (!jedis.exists(eventKey)) {
 			System.out.println(eventKey + " removed correctly");
 		}
-
 	}
 
 }

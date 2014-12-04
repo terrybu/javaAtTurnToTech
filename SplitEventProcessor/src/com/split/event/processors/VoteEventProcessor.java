@@ -17,9 +17,16 @@ public class VoteEventProcessor implements Runnable {
 	public void run() {
 		// TODO Auto-generated method stub
     	Map <String, String> eventObjectHash = jedis.hgetAll(eventKey);
-    	System.out.println("Event Key:" + eventKey + " EventType: " + eventObjectHash.get("type"));
-		System.out.println(eventObjectHash);
-		
+    	//In To, Subject, Body Email Format
+    	System.out.println("\n");
+    	    	
+		System.out.println("TO: " +     	eventObjectHash.get("recipients")       );
+		System.out.println("SUBJECT: Somebody liked your comment!");
+		System.out.println("BODY: ");
+		System.out.println("Voters:" + eventObjectHash.get("voters"));
+		System.out.println("Poll ID:" + eventObjectHash.get("pollID"));
+		System.out.println("Poll TimeStamp:" + eventObjectHash.get("pollTimeStamp"));
+
 		//and then we remove the event object out of the queue
 		//first, from the events queue
 		jedis.lrem("events", 0, eventKey);			
@@ -28,7 +35,6 @@ public class VoteEventProcessor implements Runnable {
 		if (!jedis.exists(eventKey)) {
 			System.out.println(eventKey + " removed correctly");
 		}
-
 	}
 
 }

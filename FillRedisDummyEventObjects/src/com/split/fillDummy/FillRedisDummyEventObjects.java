@@ -49,6 +49,17 @@ public class FillRedisDummyEventObjects {
 		TagEvent dummyTagEvent = new TagEvent(taggedContacts4, pollID4, pollTimeStamp4, taggerID4);
 		FillRedisDummyEventObjects.sendEventObjectToRedis(dummyTagEvent);
 		
+		//TagJoinEvent
+		String taggedContactNumber = "555-522-8243";
+		String tagger5 = "ad69fb44-a04a-4acd-904a-b04c38a1ebd7";
+		TagJoinEvent dummyTagJoinEvent = new TagJoinEvent(new String[] {tagger5}, taggedContactNumber);
+		FillRedisDummyEventObjects.sendEventObjectToRedis(dummyTagJoinEvent);
+		
+		
+		//VoteEvent
+		
+		
+		
 		System.out.println("Done with Sending Dummy Event Objects to Redis");
 		jedis.close();
 	}
