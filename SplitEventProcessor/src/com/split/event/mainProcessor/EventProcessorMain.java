@@ -1,8 +1,15 @@
-package com.split.event.processors;
+package com.split.event.mainProcessor;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+
+import com.split.event.processors.CommentEventProcessor;
+import com.split.event.processors.FriendPollEventProcessor;
+import com.split.event.processors.LikeEventProcessor;
+import com.split.event.processors.TagEventProcessor;
+import com.split.event.processors.TagJoinEventProcessor;
+import com.split.event.processors.VoteEventProcessor;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;

@@ -1,3 +1,5 @@
+package com.split.event.processors;
+
 import java.util.Enumeration;
 import java.util.Hashtable;
 import com.relayrides.pushy.apns.ApnsEnvironment;
@@ -90,7 +92,7 @@ public void sendPushNotificationWithCustomProperty(String message, Hashtable<Str
 		
 		
 		
-			String deviceToken = TokenHide.deviceToken;
+			String deviceToken = "<5cf63347 7edaf7c1 1f1159b5 e173723d ffd0261a 80921665 9f42d56d dca38a63>";
 								   
 			APNSDriver apns = new APNSDriver();			
 			apns.initializeAPNS();
@@ -103,7 +105,6 @@ public void sendPushNotificationWithCustomProperty(String message, Hashtable<Str
 			String messageBody =  "You were tagged by somebody in a poll!";
 			
 			apns.sendPushNotification(messageBody, deviceToken);
-
 	}
 
 }

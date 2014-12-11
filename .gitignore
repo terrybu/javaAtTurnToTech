@@ -1,7 +1,7 @@
 .metadata/
 .recommenders/
 *.jar
-
+*.zip
 
 apns/com/relayrides/
 

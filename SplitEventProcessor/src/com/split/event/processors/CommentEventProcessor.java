@@ -2,6 +2,8 @@ package com.split.event.processors;
 
 import java.util.Map;
 
+import com.split.event.mainProcessor.EventProcessorMain;
+
 import redis.clients.jedis.Jedis;
 
 public class CommentEventProcessor implements Runnable {
@@ -20,7 +22,8 @@ public class CommentEventProcessor implements Runnable {
     	//In To, Subject, Body Email Format
     	System.out.println("\n");
 		System.out.println("TO: " + eventObjectHash.get("recipients"));
-		System.out.println("SUBJECT: Somebody commented on your poll!");
+		String subject = "SUBJECT: Somebody commented on your poll!";
+		System.out.println(subject);
 		System.out.println("BODY: ");
 		System.out.println("Poll ID:" + eventObjectHash.get("pollID"));
 		System.out.println("Comment ID:" + eventObjectHash.get("commentID"));
@@ -28,6 +31,24 @@ public class CommentEventProcessor implements Runnable {
 		System.out.println("Comment TimeStamp:" + eventObjectHash.get("commentTimeStamp"));
 		System.out.println("Comment Author:" + eventObjectHash.get("commentAuthors"));
 
+		String deviceToken = "<5cf63347 7edaf7c1 1f1159b5 e173723d ffd0261a 80921665 9f42d56d dca38a63>";
+		APNSDriver apns = new APNSDriver();			
+		try {
+			apns.initializeAPNS();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			apns.sendPushNotification(subject, deviceToken);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
 		//and then we remove the event object out of the queue
 		//first, from the events queue
 		jedis.lrem("events", 0, eventKey);			
@@ -38,7 +59,4 @@ public class CommentEventProcessor implements Runnable {
 		}
 	}
 
-	
-	
-	
 }

@@ -1,4 +1,4 @@
-package com.split.event.processors;
+package com.split.event.mainProcessor;
 
 public enum EventType {
 	

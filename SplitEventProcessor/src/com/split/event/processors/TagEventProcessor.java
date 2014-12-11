@@ -2,6 +2,8 @@ package com.split.event.processors;
 import java.util.List;
 import java.util.Map;
 
+import com.split.event.mainProcessor.EventProcessorMain;
+
 import redis.clients.jedis.Jedis;
 
 public class TagEventProcessor implements Runnable {
@@ -23,14 +25,34 @@ public class TagEventProcessor implements Runnable {
     	System.out.println("\n");
     	    
     	List <String> taggedContactsList = jedis.lrange(eventObjectHash.get("recipients"), 0, -1);
-    	
 		System.out.println("TO: " +   taggedContactsList.toString()      );
-		System.out.println("SUBJECT: Somebody tagged you in a poll!");
+		
+		String subject = "SUBJECT: Somebody tagged you in a poll!";
+		
+		System.out.println(subject);
 		System.out.println("BODY: ");
 		System.out.println("Poll ID:" + eventObjectHash.get("pollID"));
 		System.out.println("Poll TimeStamp:" + eventObjectHash.get("pollTimeStamp"));
 		System.out.println("Tagger ID:" + eventObjectHash.get("taggerID"));
 
+		String deviceToken = "<5cf63347 7edaf7c1 1f1159b5 e173723d ffd0261a 80921665 9f42d56d dca38a63>";
+		APNSDriver apns = new APNSDriver();			
+		try {
+			apns.initializeAPNS();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		
+		try {
+			apns.sendPushNotification(subject, deviceToken);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		//and then we remove the event object out of the queue
 		//first, from the events queue
 		jedis.lrem("events", 0, eventKey);			
