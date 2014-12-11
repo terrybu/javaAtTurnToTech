@@ -29,7 +29,6 @@ public class EventProcessorMain {
 		        	Map <String, String> myEventObjectHash = jedis.hgetAll(eventKey);
 		        	String eventType = myEventObjectHash.get("type");
 		        	EventType type = EventType.getEventType(eventType); 
-		        	//Using Enum for the switch statement for convenience
 		    		switch (type) {
 		    		case TagEvent:
 						Thread tagEventThread = new Thread(new TagEventProcessor(eventKey));
