@@ -1,9 +1,7 @@
 package com.split.event.mainProcessor;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
-
 import com.split.event.processors.CommentEventProcessor;
 import com.split.event.processors.FriendPollEventProcessor;
 import com.split.event.processors.LikeEventProcessor;

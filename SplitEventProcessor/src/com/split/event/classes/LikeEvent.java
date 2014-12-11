@@ -10,15 +10,13 @@ public class LikeEvent {
 	private String commentID;
 	private String commentTimeStamp;
 	private String pollID;
-	private String pollTimeStamp;
+	private String likeTimeStamp;
 	
 	public LikeEvent() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public LikeEvent(String[] recipients, String[] likers, String commentID, String commentTimeStamp, String pollID,
-			String pollTimeStamp) {
+	public LikeEvent(String[] recipients, String[] likers, String commentID, String commentTimeStamp, String pollID, String likeTimeStamp) {
 		super();
 		this.type = "likeEvent";
 		this.recipients = recipients;
@@ -26,7 +24,7 @@ public class LikeEvent {
 		this.commentID = commentID;
 		this.commentTimeStamp = commentTimeStamp;
 		this.pollID = pollID;
-		this.pollTimeStamp = pollTimeStamp;
+		this.likeTimeStamp = likeTimeStamp;
 	}
 
 
@@ -39,7 +37,7 @@ public class LikeEvent {
 		myMap.put("commentID", this.getCommentID());
 		myMap.put("commentTimeStamp", this.getCommentTimeStamp());
 		myMap.put("pollID", this.getPollID());
-		myMap.put("pollTimeStamp", this.getPollTimeStamp());
+		myMap.put("likeTimeStamp", this.getLikeTimeStamp());
 		return myMap;
 	}
 	
@@ -91,17 +89,12 @@ public class LikeEvent {
 		this.pollID = pollID;
 	}
 
-	public String getPollTimeStamp() {
-		return pollTimeStamp;
+	public String getLikeTimeStamp() {
+		return likeTimeStamp;
 	}
 
-	public void setPollTimeStamp(String pollTimeStamp) {
-		this.pollTimeStamp = pollTimeStamp;
-	} 
-	
-	
-	
-	
-	
+	public void setLikeTimeStamp(String likeTimeStamp) {
+		this.likeTimeStamp = likeTimeStamp;
+	}
 	
 }

@@ -28,7 +28,7 @@ public class APNSDriver {
 				//ApnsEnvironment.getSandboxEnvironment(),
 				env,
 				PushManagerFactory.createDefaultSSLContext(						
-						"/Users/adityanarayan/Desktop/thirdTryCharm/thirdTryCharm.p12", "password"));
+						"/Users/adityanarayan/Desktop/thirdTryCharmKeys/thirdTryCharm.p12", "password"));
 
 		pushManager = pushManagerFactory.buildPushManager();
 		
